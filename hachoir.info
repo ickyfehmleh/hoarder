@@ -1,0 +1,63 @@
+ISO FILE
+
+>>> from info import FileMetadata
+>>> m = FileMetadata('/share/expired/Simon_Birch__1998_/SIMON_BIRCH.iso')
+Metadata:
+- Title: SIMON_BIRCH
+- Creation date: 2008-08-05 14:43:03
+- Last modification: 2008-08-05 14:43:03
+- Producer: MKISOFS ISO 9660/HFS FILESYSTEM BUILDER & CDRECORD CD-R/DVD CREATOR (C) 1993 E.YOUNGDALE (C) 1997 J.PEARSON/J.SCHILLING
+- MIME type: application/octet-stream
+- Endianness: Little endian
+
+
+============================================================================
+Common: 
+- Duration: 1 hour 39 min 42 sec 
+- Image width: 704 pixels 
+- Image height: 368 pixels 
+- Frame rate: 25.0 fps 
+- Bit rate: 1.7 Mbit/sec 
+- Producer: FairUse Wizard - http://fairusewizard.com 
+- Comment: Has audio/video index (4.6 MB) 
+- MIME type: video/x-msvideo 
+- Endian: Little endian 
+
+Video stream: 
+- Duration: 1 hour 39 min 42 sec 
+- Image width: 704 pixels 
+- Image height: 368 pixels 
+- Bits/pixel: 12 
+- Compression: XviD MPEG-4 (fourcc:"xvid") 
+- Frame rate: 25.0 fps 
+
+Audio stream: 
+- Duration: 1 hour 39 min 42 sec 
+- Channel: stereo 
+- Sample rate: 48.0 kHz 
+- Compression rate: 8.0x 
+- Compression: MPEG Layer 3 
+- Bit rate: 192.0 Kbit/sec
+
+====================== HD FILE ======================
+
+Common: 
+- Duration: 1 hour 42 min 33 sec 
+- Creation date: 2010-10-16 16:07:18 
+- Producer: mkvmerge v2.9.7 ('Tenderness') built on Jul  1 2009 18:43:35
+- Producer: libebml v0.7.7 + libmatroska v0.8.1 
+- MIME type: video/x-matroska 
+- Endian: Big endian 
+
+Video stream: 
+- Language: English 
+- Image width: 1280 pixels 
+- Image height: 720 pixels 
+- Compression: V_MPEG4/ISO/AVC 
+
+Audio stream: 
+- Language: English 
+- Channel: 6 
+- Sample rate: 48.0 kHz 
+- Compression: A_DTS
+

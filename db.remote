@@ -1,0 +1,42 @@
+--
+-- dealing with remote hosts and such
+--
+
+--
+-- remote hosts
+CREATE TABLE remote_host
+(
+	remote_host_id	integer not null,
+	hostname	text not null,
+	nick_name	text not null,		-- eg 'Bedroom', 'Living Room', 'Downstairs'
+	type		text not null,		-- 'xbmc', 'wdtv', 'other'
+	login_type	text,			-- ftp, sftp.  sftp would require paramiko dependency
+	login_name	text,			-- username to ftp/sftp as
+	login_passwd	text,			-- password to ftp/sftp as
+	PRIMARY KEY (remote_host_id)
+);
+
+--
+-- remote dirs
+CREATE TABLE remote_path
+(
+	remote_path_id	integer not null,
+	remote_host_id	integer not null,
+	dir_name	text not null,		-- eg /Volumes/Movies/SDMovies
+	nick_name	text,			-- defaults to os.path.basename( dir_name )
+	file_type	text,			-- same as monitored_path.file_type
+	PRIMARY KEY(remote_dir_id)
+);
+
+--
+-- remote tasks
+CREATE TABLE remote_task
+(
+	task_id		integer not null,
+	status		text not null,		-- Completed, Pending, Error
+	msg		text,			-- message for the status; eg failed login, no route to host, etc
+	remote_path_id	integer not null,	-- fk: remote_path.remote_path_id
+	file_id		integer not null,	-- fk: files.file_id
+	remote_name	text,			-- what to call the file on the remote host
+	PRIMARY KEY (task_id)
+);

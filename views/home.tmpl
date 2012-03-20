@@ -1,0 +1,97 @@
+<html>
+	<head>
+		<title>Hoarder!</title>
+	</head>
+<body>
+% if msg:
+	<p><b>${msg}</b><p/>
+% endif
+
+<form method="POST" action="/search">
+	Find a 
+	<select name="findby">
+		<option value="movie">movie</option>
+		<option value="tvshow">tv show</option>
+		<option value="tvep">tv episode</option>
+		<option value="person">person</option>
+		<option value="disk">disk</option>
+		<option value="path">path</option>
+		<option value="file">file</option>
+	</select>
+
+	named
+
+	<input type="text" name="findvalue" />
+	<input type="submit" value="Search!" />
+</form>
+
+<br />
+<hr />
+<br />
+<b>LAST ITEMS ADDED</b>:<br />
+
+<table border="1" cellspacing="0" cellpadding="5" width="100%">
+<tr>
+	<th colspan="2" width="25%" align="center">Name</th>
+	<th colspan="5" width="50%" align="center">Path</th>
+	<th colspan="2" width="25%" align="center">Size</th>
+</tr>
+
+% for currLastItem in lastItems:
+	<tr>
+		<td colspan="2" width="25%">
+			% if currLastItem.movie is not None:
+				<a href="/movies?id=${currLastItem.movie.id}">${currLastItem.movie.name}</a>
+			% else:
+			<b>UNKNOWN</b>
+			% endif
+		</td>
+
+		<td colspan="5" width="50%">
+			<a href="/files/${currLastItem.id}">${currLastItem.absoluteFileName}</a>
+		</td>
+
+		<td colspan="2" width="25%">
+			${human_readable( currLastItem.fileSize )}
+			<br />
+			${currLastItem.dateAdded}
+		</td>
+	</tr>
+% endfor
+</table>
+
+<br />
+<hr />
+<br />
+<table border="1" cellspacing="0" cellpadding="3" width="50%">
+<tr>
+	<th colspan="5" width="50%" align="center">Disk &amp; Mount Point</th>
+	<th colspan="2" width="25%" align="center">Free Space</th>
+	<th colspan="2" width="25%" align="center">Total Space</th>
+</tr>
+% for currDisk in allDisks:
+<tr>
+	<td colspan="5" width="50%" align="left">
+		${currDisk.path}:<br/>
+		<ul type="disc">
+		% for currMonitoredPath in currDisk.monitoredPaths:
+			<li> ${currMonitoredPath.pathName}
+		% endfor
+		</ul>
+	</td>
+
+	<td colspan="2" width="25%" align="center" valign="top">
+		${human_readable( currDisk.freeSpace )}
+	</td>
+
+	<td colspan="2" width="25%" align="center" valign="top">
+		${human_readable( currDisk.totalSpace )}
+	</td>
+</tr>
+% endfor
+</table>
+
+<%include file="/widget_counts.tmpl" />
+
+</body>
+</html>

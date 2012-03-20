@@ -1,0 +1,75 @@
+--
+-- details about a tv show
+CREATE TABLE tvshow
+(
+	tv_show_id	integer not null,
+	name		text not null,
+	year		text,
+	plot		text,
+	ext_provider	text,			-- eg tvrage
+	ext_id		text,			-- id for ext_provider
+	img_url		text,
+	PRIMARY KEY (tv_show_id)
+);
+
+--
+-- episodes of a show
+CREATE TABLE tvshow_episode
+(
+	tv_show_id	integer not null,
+	episode_id	integer not null,
+	name		text,
+	air_date	text,
+	plot		text,
+	img_url		text,
+	ext_provider	text,			-- repeat of tvshow.ext_provider?
+	ext_id,		text,
+	PRIMARY KEY (episode_id)
+);
+
+--
+-- only paths can contain a show; files are episodes of the show
+CREATE TABLE tvshow_path
+(
+	tv_show_id	integer not null,	-- fk: tv_show.tv_show_id
+	path_id		integer not null,	-- eg season 1, season 2
+	season_id	integer,		-- if null, path == all seasons
+	PRIMARY KEY (path_id)
+);
+
+--
+-- link a particular episode to a file
+CREATE TABLE tvshowepisode_file
+(
+	tv_show_episode_id	integer not null,
+	file_id			integer not null,
+	PRIMARY KEY (file_id)			-- because we could have multiple files for a given ep (eg one mkv, one avi)
+);
+
+--
+-- movie role -> person
+CREATE TABLE tvshow_role
+(
+	tv_show_id	integer not null,
+	person_id	integer not null,
+	role		text not null,
+	PRIMARY KEY (tv_show_id, person_id)
+);
+
+--
+-- movie director(s)
+CREATE TABLE tvshow_director
+(
+	tv_show_id	integer not null,
+	person_id	integer not null,
+	PRIMARY KEY(tv_show_id, person_id)
+);
+
+--
+-- movie writer(s)
+CREATE TABLE tvshow_writer
+(
+	tv_show_id	integer not null,
+	person_id	integer not null,
+	PRIMARY KEY(tv_show_id, person_id)
+);

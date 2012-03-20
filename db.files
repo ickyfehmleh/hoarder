@@ -1,0 +1,75 @@
+--
+-- file extensions to process
+CREATE TABLE process_ext
+(
+	ext_id	INTEGER NOT NULL,
+	ext	TEXT NOT NULL,			-- .avi, .mkv
+	PRIMARY KEY(ext_id)
+);
+
+--
+-- which disk to archive data on
+CREATE TABLE archive_disk
+(
+	disk_id		INTEGER NOT NULL,	-- 
+	name		TEXT,			-- eg "WD 2tb Black"
+	disk_uuid	TEXT NOT NULL,		-- uniquely identify this disk
+	disk_path	TEXT NOT NULL,		-- eg /Volumes/MOVIE_DISK_12
+	total_space	INTEGER NOT NULL,	-- in bytes
+	free_space	INTEGER NOT NULL,	-- in bytes
+	dt_last_index	TEXT NOT NULL,		-- date free_space was last calculated
+	PRIMARY KEY(disk_id)
+);
+
+--
+-- paths to monitor
+CREATE TABLE monitored_path
+(
+	monitored_path_id	integer not null,
+	path_name		text not null,
+	file_type		text not null,	
+	status			text,			-- being indexed/refreshed?
+	disk_id			integer not null,	-- fk: archive_disk.disk_id
+	PRIMARY KEY (monitored_path_id)
+);
+
+--
+-- files in the filesystem
+CREATE TABLE file
+(
+	file_id			integer not null,	
+	path_id			integer not null,	-- fk: path.path_id
+	file_name		text not null,		-- filename + ext
+	file_ext		text not null,		-- just extension
+	dt_added		integer not null,	-- time_t
+	file_size		integer not null,
+	PRIMARY KEY (file_id)	
+);
+
+--
+-- paths
+CREATE TABLE path
+(
+	path_id			integer not null,	-- pk
+	dt_added		text not null,		-- time_t
+	path_name		text not null,		-- abs path
+	monitored_path_id	integer not null,	-- is this needed?  DAO could use 'getMonitoredPathForFile()' to calculate this with a BUNCH of queries
+							-- would need to select on os.path.dirname( path ) until we get a valid monitored_path
+	PRIMARY KEY (path_id)
+);
+
+--
+-- different types of information on a given file
+CREATE TABLE file_info
+(
+	file_id		integer not null,
+	video_height	text,
+	video_width	text,
+	video_codec	text,
+	audio_codec	text,
+	audio_channels	text,
+	duration	text,
+	mdsum		text,
+	imdb_url	text,
+	PRIMARY KEY(file_id)
+);

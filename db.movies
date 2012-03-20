@@ -1,0 +1,63 @@
+--
+-- details on a cast member, director, writer, etc
+CREATE TABLE person
+(
+	person_id	integer not null,
+	name		text not null,
+	img_url		text,
+	full_img_url	text,
+	imdb_id		text,
+	PRIMARY KEY (person_id)
+);
+
+--
+-- details about a movie
+CREATE TABLE movie 
+(
+	movie_id	integer not null,
+	name		text not null,
+	year		text,
+	mpaa_rating	text,
+	tagline		text,
+	plot		text,
+	imdb_id		text,
+	img_url		text,
+	PRIMARY KEY (movie_id)
+);
+
+--
+-- movie role -> person
+CREATE TABLE movie_person_role
+(
+	movie_id	integer not null,
+	person_id	integer not null,
+	role		text not null,
+	PRIMARY KEY (movie_id, person_id)
+);
+
+--
+-- movie director(s)
+CREATE TABLE movie_director
+(
+	movie_id	integer not null,
+	person_id	integer not null,
+	PRIMARY KEY(movie_id, person_id)
+);
+
+--
+-- movie writer(s)
+CREATE TABLE movie_writer
+(
+	movie_id	integer not null,
+	person_id	integer not null,
+	PRIMARY KEY(movie_id, person_id)
+);
+
+--
+-- movie -> file mappings
+CREATE TABLE movie_file
+(
+	movie_id	integer not null,
+	file_id		integer not null,
+	PRIMARY KEY (file_id)
+);

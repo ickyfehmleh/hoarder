@@ -1,0 +1,158 @@
+
+MOVIE LOGGER
+============
+
+X ability to add monitored directories
+	X tag particular dirs as containing eg tv shows, movies (like xbmc)
+	X cronjob will run in background (in python) every <configurable> mins
+	  to scan dirs, fetch info on new files it finds
+
+- ability to add xbmc instances
+	- eg 192.168.1.55 == living room, 192.168.1.900 == bedroom
+	- list dirs on each instance
+		- eg /Volumes/XBMC/Movies == movies
+		- eg /Volumes/XBMC/TV == tv shows
+	- ability to push files to a given instance
+		- push via sftp (paramiko)
+	- ability to monitor an INCOMING-style directory
+		- push files from INCOMING to appropriate archive dirs
+		- push files from INCOMING/archive dirs to XBMC instances
+
+- keep track of what movies and tv shows are where
+	- xbmc instances
+	- archive disks
+
+X needs to log time/date movie was fetched from colo server
+
+X md5 sums would be helpful
+
+- movie info
+	- director
+	- writer
+	- cast & roles
+	- tagline
+	- plot
+	- imdb rating?
+	- user rating (user-supplied)
+	- user notes (multiple notes)
+
+- templated html pages
+	- use mako; nicer than Cheetah
+	- @cherrypy.tools.mako(filename = "movie/index.html")
+	- check couch potato to see usage
+
+- should log data to sqlite db
+	- pull out data using sqlalchemy
+		- http://www.sqlalchemy.org
+		- http://www.sqlalchemy.org/docs/orm/tutorial.html
+		- http://surfnet.dl.sourceforge.net/project/sqlalchemy/sqlalchemy/0.7.0/SQLAlchemy-0.7.0.tar.gz
+
+- info on each file
+	- from hachoir:
+		- length
+		- resolution
+		- video codec
+		- audio codec
+	- md5 sum
+	- filename
+	- full path
+
+- ability to show duplicates
+	- eg one is a dvdrip, other is a BRRip
+	- side-by-side comparison of filesizes, mdsum, quality, etc
+	- option to remove either file in favor of the other
+
+- warnings when moviedisk is nearing 90% full, 95% full 
+	- color code these then showing the different disks available
+
+- DBFile should log directories and everything in directories, need a
+  column to denote if its a dir or not (and if its processable or not?
+  if the ext is in process_ext?  or dynamically calculate this?)
+	- FileDAO.isFileProcessable( dbfile )
+
+X xbmc stores files in 'files' and paths in 'paths', might be wise to do the 
+  same
+
+- http://sourceforge.net/projects/emm-r/
+  code is vb, might be interesting to see how they laid things out
+
+X need a MovieDAO
+	- http://forums.themoviedb.org/topic/1092/my-contribution-tmdb-api-wrapper-python/
+	- dao should use ^^^ to fetch data as json
+	- use internal json lib to convert to objects
+
+- DBFile should have an isProcessed flag
+	- use to see whether or not to look for data for this item
+	- could also manually check the appropriate movie or tvshow table
+	  to see if there's data for this file
+
+- add notion of an 'incoming' directory
+	- items under incoming need to be processed
+	- should be able to move incoming files to a monitored dir
+	- should be able to push files to xbmc instances+paths
+		- can do this in the background via 'task' table
+
+- add notion of remote path
+	- 192.168.1.55 == Living Room running XBMC
+	- 192.168.1.65 == bedroom running WDTV
+	- @Living Room:/Volumes/XBMC/SDMovies == movies
+	- @Bedroom:/c/wdtv/TV == tv series
+	- should also support wdtv "moviesheets"
+		- http://wdtv-osdmod.blogspot.com/2010/04/how-to-generate-moviesheets-with.html
+	- also need the option of populating a local disk with data
+		- eg take the wdtv disk, plug it into macpro, tell Hoarder to
+		  fill it up with a selected "playlist" of movies/tvshows
+	- need ability to "sync" a directory
+		- eg if SickBeard says the path for Mythbusters is 
+		  /Volumes/XBMC/Series/Mythbusters, Hoarder should be able
+		  to ftp all archived files (if available) to wherever SB
+		  puts the show.  
+		- OR leave out the sickbeard integration 
+		  and just keep track of "Mythbusters @LivingRoom is 
+		  /Volumes/Movies/Series/Mythbusters"
+			* could eventually auto-sync dirs to remote hosts if
+			  going this route
+
+- monitored_paths should have metadata associated with them
+	- eg "this is for DVD images", "dir is for HDTV movies", etc
+
+X rework classes that use __getattr__() to use @property instead
+        - http://snippets.dzone.com/posts/show/954
+        - http://www.sqlalchemy.org/docs/orm/mapper_config.html#synonyms
+
+- file_movie_guesses table should hold the 'best guesses' as to what the
+  file is, if: 
+	(1) it is a movie 
+	(2) there's no .nfo file 
+	(3) multiple imdb results for the name
+	* table structure:
+		- file_id
+		- movie_name
+		- movie_imdb_id
+
+- when pushing files to remote xbmc instances, create an .nfo file
+	- http://wiki.xbmc.org/?title=Import_-_Export_Library#Video_nfo_Files
+	- sickbeard supports this too for tv shows
+	- does couch potato?
+	- does xbmc use the .nfo to populate its db???
+	- send xbmc command to update video library after ftp/sftp
+
+- FileDAO needs a refreshDirectory() method that will only add files that
+  are not currently in the db
+
+- do not log contents of 'incoming' directories
+	- users will move files around
+	- need to denote that a file should be processed after its moved
+
+- couchpotato's config says it will consult an XBMC database to check to see
+  if a movie is there prior to adding it to the want list.  Hoarder should
+  output an XBMC database for this, and also for quickly populating an XBMC
+  instance.
+	- http://wiki.xbmc.org/index.php?title=The_XBMC_Database
+
+- fileDAO needs a getProcessableFiles() method that will return files
+  that are processable.
+
+- fileDAO needs a isProcessable(dbf) method that will return whether or not
+  a given dbfile is processable (if the extension matches a processable 
+  extension)

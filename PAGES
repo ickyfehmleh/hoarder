@@ -1,0 +1,102 @@
+PAGES
+=====
+
+* tabs on each page (ala SABnzbd, SickBeard, etc):
+	- Home
+		- Find By:
+			- Monitored disk
+			- Monitored directory
+			- Movie
+			- Actor
+			- Writer
+			- Director
+			- Genre
+			- Year
+	- Config
+	- Help
+
+* home
+	X last n items added to the db
+	X search box for:
+		- movie
+		- tv show
+		- actor
+		- writer
+		- director
+	X show disks
+		- available (mounted?)
+		- size
+		- available size
+
+* add directory
+	- add directory to monitor
+	- set content for said directory (eg tv show, movie, 'new'/'incoming')
+	- show files in directory
+	- refresh contents
+
+* post-process
+	- show everything in 'incoming'-style directories
+	- allow for moving files around
+		- move <incoming file> to <monitored_path><opt:new filename>
+		- do not allow user to move file to random directories,
+		  just the ones being monitored
+	- allow for pushing files to remote instances
+		- may want to wait until user moves and indexes file/dir
+
+X detail movie
+	X name
+	- alternative name(s)
+	- language
+	X tagline
+	- date released
+	- date added to db
+	- runtime
+	- rating
+	X description (aka overview)
+	- categories (eg Crime, Drama, Thriller)
+		- each a link to 'search movie results' for that category
+	- image(s)
+	- cast
+		X each a link to 'detail person'
+		- 'name', 'character name', and 'role' (eg Actor, Director)
+		- indicator as to whether or not we have that movie
+			- why would it show up here if we didnt have it?
+		* NEAT IDEA: if we dont have it, assemble link that will
+		  cause CouchPotato/SickBeard to get it?
+	- location(s) [expandable text box; hide by default]
+		X full path to a given location
+		- md5sum for this location
+		- extended info, (eg resolution, codec, container (mp4, mkv))
+			- http://pymedia.org/tut/
+			- hachoir; this is what couchpotato and sickbeard use
+		X filesize (human readable, eg 4.4G )
+
+* detail person
+	- name
+	- also known as name(s)?
+	- bio?
+	- birthplace?
+	- birthday?
+	- image(s)
+	- filmography
+		- each a link to 'detail movie' if we have it
+			- why would it show up in the filmograph if we didnt
+			  have it?
+		- see "NEAT IDEA" above
+		- 'character name' and 'role' (eg Actor, Director)
+
+* search movie/tv show/person results
+	- type (eg Movie, TV Show, Person)
+	- name
+	- year
+	- image w/link to appropriate detail page
+
+* config
+	- path to sickbeard
+		- may need to read its sqlite db
+	- url to sickbeard
+	- path to couchpotato
+		- may need to read its sqlite db
+	- url to couchpotato
+	- add disk
+	- add monitored directory (select disk first)

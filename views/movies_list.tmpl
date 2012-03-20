@@ -1,0 +1,20 @@
+<html>
+ <head>
+  <title>Hoarder :: List Movies</title>
+ </head>
+ <body>
+   % if msg:
+      <p><b>${msg}</b><p/>
+   % endif
+
+   <table border="1" cellspacing="0" cellpadding="3" width="100%">
+     % for currMovie in allMovies:
+     <tr>
+       <td> ${currMovie.name} ${currMovie.year} </td>
+       <td> IMDB link </td>
+     </tr>
+     % endfor
+   </table>
+
+ </body>
+</html>

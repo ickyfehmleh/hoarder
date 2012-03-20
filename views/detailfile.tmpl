@@ -1,0 +1,48 @@
+<html>
+ <head>
+  <title>File Details</title>
+ </head>
+ <body>
+   % if msg:
+      <p><b>${msg}</b><p/>
+   % endif
+   <p>
+	<b>${selectedFile.monitoredPath.pathName} / ${selectedFile.baseFileName}</b>
+   </p>
+   <table border="1" cellspacing="0" cellpadding="3" width="100%">
+     <tr>
+       <th width="50%" align="center" bgcolor="#000000"> <font color="#FFFFFF">Item</font> </th>
+       <th width="50%" align="center" bgcolor="#000000"> <font color="#FFFFFF">Value</font> </th>
+     </tr>
+     <tr>
+       <td> File Size </td>
+       <td> ${selectedFile.humanReadableFileSize} </td>
+     </tr>
+     <tr>
+       <td> Date Added
+       <td> ${selectedFile.dateAdded} </td>
+     </tr>
+     <tr>
+       <td>Video Geometry </td>
+       <td>${selectedFile.fileMetadata.videoWidth} x ${selectedFile.fileMetadata.videoHeight}</td>
+     </tr>
+     <tr>
+       <td>Video Codec
+       <td>${fileMetadata.videoCodec}
+     </tr>
+     <tr>
+       <td>Audio Codec (Language) [Channels]
+       <td>${fileMetadata.audioCodec} (${fileMetadata.language}) [${fileMetadata.audioChannels}]</td>
+     </tr>
+     <tr>
+       <td>Duration </td>
+       <td>${fileMetadata.duration} </td>
+     </tr>
+     <tr>
+       <td>IMDB URL </td>
+       <td>${fileMetadata.imdbUrl} </td>
+     </tr>
+   </table>
+
+ </body>
+</html>

@@ -1,0 +1,27 @@
+<html>
+ <head>
+  <title>Listing Directory!</title>
+ </head>
+ <body>
+   % if msg:
+      <p><b>${msg}</b><p/>
+   % endif
+   <h1 align="center">${path.pathName} (${len(path.files)})</h1>
+   % if path.isBeingRefreshed:
+      <p><b>Directory is being refreshed from disk</b></p>
+   % endif
+   <table border="1" cellspacing="0" cellpadding="3" width="100%">
+     <tr>
+       <th width="75%" align="center" bgcolor="#000000"> <font color="#FFFFFF">File Name</font> </th>
+       <th width="25%" align="center" bgcolor="#000000"> <font color="#FFFFFF">Size</font> </th>
+     </tr>
+     % for currFile in path.files:
+        <tr>
+          <td><a href="/detailFile?fileid=${currFile.id}">${currFile.baseFileName}</a> </td>
+          <td>${currFile.humanReadableFileSize} </td>
+        </tr>
+     % endfor
+   </table>
+
+ </body>
+</html>
